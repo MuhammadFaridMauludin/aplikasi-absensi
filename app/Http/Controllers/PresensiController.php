@@ -1,0 +1,242 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\CssSelector\Node\HashNode;
+
+class PresensiController extends Controller
+{
+    public function create()
+    {
+        $harini = date("Y-m-d");
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $cek = DB::table('presensi')->where('tgl_presensi', $harini)->where('nik', $nik)->count();
+        return view('presensi.create', compact('cek'));
+    }
+
+    public function store(Request $request)
+    {
+
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $tgl_presensi = date("Y-m-d");
+        $jam = date("H:i:s");
+        $latitudekantor = -8.139962334111932;
+        $longitudekantor = 113.24278259971327;
+        $lokasi = $request->lokasi;
+        $lokasiuser = explode(",", $lokasi);
+        $latitudeuser = $lokasiuser[0];
+        $longitudeuser = $lokasiuser[1];
+
+        $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
+        $radius = round($jarak["meters"]);
+
+        $cek = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nik', $nik)->count();
+        if ($cek > 0) {
+            $ket = "out";
+        } else {
+            $ket = "in";
+        }
+        $image = $request->image;
+        $video = $request->video;
+
+        $folderPath = "uploads/absensi/";
+        $formatName = $nik . "-" . $tgl_presensi . '-' . $ket;
+
+        // Simpan foto
+        $image_parts = explode(";base64,", $image);
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = $formatName . ".png";
+        $file = $folderPath . $fileName;
+        Storage::put($file, $image_base64);
+
+        // Simpan video
+        if ($video) {
+            $video_parts = explode(";base64,", $video);
+            $video_base64 = base64_decode($video_parts[1]);
+            $videoName = $formatName . ".webm";
+            $videoFile = $folderPath . $videoName;
+            Storage::put($videoFile, $video_base64);
+        }
+
+        // Simpan ke database
+        $data = [
+            'nik' => $nik,
+            'tgl_presensi' => $tgl_presensi,
+            'jam_in' => $jam,
+            'foto_in' => $fileName,
+            'vidio_in' => $videoName ?? null,
+            'lokasi_in' => $lokasi
+        ];
+        //validari radius
+        if ($radius > 2000) {
+            echo "erorr|Maaf Anda Berada Diluar Radius Kantor, jarak anda " . $radius . " Meter dari kantor|radius";
+        } else {
+            if ($cek > 0) {
+                $data_pulang = [
+                    'jam_out' => $jam,
+                    'foto_out' => $fileName,
+                    'vidio_out' => $videoName ?? null,
+                    'lokasi_out' => $lokasi
+                ];
+                $update = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nik', $nik)->update($data_pulang);
+                if ($update) {
+                    echo "success|Absen Pulang Berhasil, hati hati di jalan |out";
+                    Storage::put($file, $image_base64);
+                } else {
+                    echo "erorr|Absensi Gagal, Hubungi Tim IT|out";
+                }
+            } else {
+                $data = [
+                    'nik' => $nik,
+                    'tgl_presensi' => $tgl_presensi,
+                    'jam_in' => $jam,
+                    'foto_in' => $fileName,
+                    'vidio_in' => $videoName ?? null,
+                    'lokasi_in' => $lokasi
+                ];
+                $simpan = DB::table('presensi')->insert($data);
+                if ($simpan) {
+                    echo "success|Absen Masuk Berhasil, Selamat Bekerja|in";
+                    Storage::put($file, $image_base64);
+                } else {
+                    echo "erorr|Absensi Gagal, Hubungi Tim IT|out";
+                }
+            }
+        }
+    }
+    //untuk menghitung jarak 
+    function distance($lat1, $lon1, $lat2, $lon2)
+    {
+        $theta = $lon1 - $lon2;
+        $miles = (sin(deg2rad($lat1)) * sin(deg2rad($lat2))) + (cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        return compact('meters');
+    }
+    public function editprofile()
+    {
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
+        return view('presensi.editprofile', compact('karyawan'));
+    }
+    public function updateprofile(Request $request)
+    {
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
+
+        $data = [];
+
+        // Update nama lengkap jika ada input
+        if ($request->filled('nama_lengkap')) {
+            $data['nama_lengkap'] = $request->nama_lengkap;
+        }
+
+        // Update no_hp jika ada input
+        if ($request->filled('no_hp')) {
+            $data['no_hp'] = $request->no_hp;
+        }
+
+        // Update password hanya jika user isi password baru
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        // Update foto hanya jika ada upload file baru
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $maxSize = 2 * 1024 * 1024; // 2MB dalam byte
+
+            if ($file->getSize() > $maxSize) {
+                // Ukuran file terlalu besar, kembalikan dengan error
+                return Redirect::back()->with(['error' => 'Ukuran gambar terlalu besar. Maksimal 2MB']);
+            }
+
+            $foto = $nik . '.' . $file->getClientOriginalExtension();
+            $data['foto'] = $foto;
+        } else {
+            // Jika tidak upload foto baru, biarkan tetap seperti semula
+            $data['foto'] = $karyawan->foto;
+        }
+
+        // Update ke DB jika ada data yang berubah
+        if (!empty($data)) {
+            $update = DB::table('karyawan')->where('nik', $nik)->update($data);
+
+            if ($update) {
+                // Jika upload foto, simpan filenya
+                if ($request->hasFile('foto')) {
+                    $folderPath = "uploads/karyawan/";
+                    $request->file('foto')->storeAs($folderPath, $data['foto']);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Diupdate']);
+            } else {
+                return Redirect::back()->with(['error' => 'Data Gagal Diupdate']);
+            }
+        } else {
+            // Tidak ada data yang diupdate
+            return Redirect::back()->with(['info' => 'Tidak ada perubahan data']);
+        }
+    }
+
+    public function history()
+    {
+        $nama_bulan = ["", "januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "december"];
+        return view('presensi.history', compact('nama_bulan'));
+    }
+    public function gethistory(Request $request)
+    {
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+        $nik = Auth::guard('karyawan')->user()->nik;
+
+        $history = DB::table('presensi')
+            ->whereRaw('MONTH(tgl_presensi)="' . $bulan . '"')
+            ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
+            ->where('nik', $nik)
+            ->orderBy('tgl_presensi')
+            ->get();
+
+        return view('presensi.gethistory', compact('history'));
+    }
+    public function izin()
+    {
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $dataizin = DB::table('pengajuan_izin')->where('nik', $nik)->get();
+        return view('presensi.izin', compact('dataizin'));
+    }
+    public function pengajuanizin()
+    {
+        return view('presensi.pengajuanizin');
+    }
+    public function storeizin(Request $request)
+    {
+        $nik = Auth::guard('karyawan')->user()->nik;
+        $tgl_izin = $request->tgl_izin;
+        $status = $request->status;
+        $keterangan = $request->keterangan;
+
+        $data = [
+            'nik' => $nik,
+            'tgl_izin' => $tgl_izin,
+            'status' => $status,
+            'keterangan' => $keterangan
+        ];
+        $simpan = DB::table('pengajuan_izin')->insert($data);
+        if ($simpan) {
+            return redirect('/presensi/izin')->with(['success' => 'data berhasil disimpan']);
+        } else {
+            return redirect('/presensi/izin')->with(['error' => 'data Gagal disimpan']);
+        }
+    }
+}
