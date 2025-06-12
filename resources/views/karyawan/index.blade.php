@@ -20,6 +20,22 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
+                                    @if (Session::get('success'))
+                                    <div class="alert alert-success">
+                                            {{Session::get('success')}}
+                                  </div>
+                                    @endif
+
+                                     @if (Session::get('warning'))
+                                    <div class="alert alert-warning">
+                                    {{Session::get('warning')}}
+                                       
+                                  </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
                                     <a href="#" class="btn btn-primary" id="btnTambahkaryawan">
                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-circle-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4.929 4.929a10 10 0 1 1 14.141 14.141a10 10 0 0 1 -14.14 -14.14zm8.071 4.071a1 1 0 1 0 -2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0 -2h-2v-2z" /></svg>
                                         Tambah data</a>
@@ -116,12 +132,89 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          
+          <form action="/karyawan/store" method="POST" id="frmKaryawan" enctype="multipart/form-data">
+            @csrf
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-braille"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0z" /><path d="M7 5a1 1 0 1 0 2 0a1 1 0 0 0 -2 0z" /><path d="M7 19a1 1 0 1 0 2 0a1 1 0 0 0 -2 0z" /><path d="M16 12h.01" /><path d="M8 12h.01" /><path d="M16 19h.01" /></svg>
+                                </span>
+                                <input type="text" id="nik" value="" class="form-control" name="nik" placeholder="Nik">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
+                                </span>
+                                <input type="text" id="nama_lengkap" value="" class="form-control" name="nama_lengkap" placeholder="Nama karyawan">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+        <div class="row mb-3">
+    <div class="col-12">
+        <select id="jenis_kel" name="jenis_kelamin" class="form-select">
+            <option value="">Jenis Kelamin</option>
+            <option value="Pria">Pria</option>
+            <option value="Wanita">Wanita</option>
+        </select>
+    </div>
+</div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-question"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" /><path d="M19 22v.01" /><path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" /></svg>
+                                </span>
+                                <input type="text" id="jabatan" value="" class="form-control" name="jabatan" placeholder="jabatan">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+            <div class="col-12">
+                 <select name="kode_dep" id="kode_dep" class="form-select">
+            <option value="">Departement</option>
+                @foreach ($departement as $d)
+            <option {{ Request('kode_dep')==$d->kode_dep ? 'selected' : ''}} value="{{ $d->kode_dep }}">{{ $d->nama_dep}}</option>
+            @endforeach
+            </select>
+            </div>
+           </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                </span>
+                                <input type="text" id="no_hp" value="" class="form-control" name="no_hp" placeholder="Nomer Handphone">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <input type="file" name="foto" class="form-control">
+                </div>
+            </div>
+           
+           <div class="row mt-2">
+            <div class="col-12">
+                <div class="form-group">
+                    <button class="btn btn-primary w-100"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-send"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" /></svg>
+                        Simpan Data</button>
+                </div>
+            </div>
+           </div>
+          </form>
         </div>
-          <div class="modal-footer">
-            <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
-          </div>
         </div>
       </div>
     </div>
@@ -132,6 +225,71 @@
 $(function(){
     $("#btnTambahkaryawan").click(function(){
         $("#modal-inputkaryawan").modal('show');
+    });
+    $("#frmKaryawan").submit(function() {
+        var nik = $("#nik").val();
+        var nama_lengkap = $("#nama_lengkap").val();
+        var jenis_kel = $("#jenis_kel").val();
+        var jabatan = $("#jabatan").val();
+        var kode_dep = $("frmKaryawan").find("#kode_dep").val();
+        var no_hp = $("#no_hp").val();
+        if(nik == ""){
+            //  alert('Nik harus diisi');
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Nik Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#nik").focus();
+            })
+            return false;
+        }else if(nama_lengkap == "") {
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Nama Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#nama_lengkap").focus();
+            })
+        }else if(jenis_kel == "") {
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Jenis Kelamin Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#jenis_kel").focus();
+            })
+        }else if(jabatan == "") {
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Jabatan Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#jabatan").focus();
+            })
+        }else if(kode_dep == "") {
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Departemen Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#kode_dep").focus();
+            })
+        }else if(no_hp == "") {
+            Swal.fire({
+            title: 'Oops!',
+            text: 'Nomer Hp Harus Diisi',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            }).then((result) => {
+                $("#no_hp").focus();
+            })
+        }
     });
 });
     </script>
