@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-5">
                                         <div class="form-group">
-                                            <input type="nama_karyawan" name="nama_karyawan" class="form-control" placeholder="Nama Karyawan" value="{{ Request('nama_karyawan')}}">
+                                            <input type="text" name="nama_karyawan" class="form-control" placeholder="Nama Karyawan" value="{{ Request('nama_karyawan')}}">
                                         </div>
                                     </div>
                                     <div class="col-5">
@@ -80,6 +80,7 @@
                                 <th>No</th>
                                 <th>Nik</th>
                                 <th>Nama</th>
+                                <th>Jenis Kelamin</th>
                                 <th>Jabatan</th>
                                 <th>Kode departemen</th>
                                 <th>No Hp</th>
@@ -96,6 +97,7 @@
                                     <td>{{ $loop->iteration + $karyawan->firstItem() -1 }}</td>
                                     <td>{{ $d-> nik}}</td>
                                     <td>{{ $d-> nama_lengkap}}</td>
+                                    <td>{{ $d-> jenis_kel}}</td>
                                     <td>{{ $d-> jabatan }}</td>
                                     <td>{{ $d-> nama_dep}}</td>
                                     <td>{{ $d-> no_hp}}</td>
@@ -107,8 +109,21 @@
                                         @endif
                                         
                                     </td>
-                                    <td></td>
-
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="#" class="edit btn btn-info btn-sm" nik="{{ $d->nik }}">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                            </a>
+                                        <form action="/karyawan/{{ $d->nik }}/delete" method="POST" style="margin-left: 5px">
+                                            @csrf 
+                                            
+                                            <a class="delete-confirm btn btn-danger btn-sm">
+                                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                            </a>
+                                        </form>
+                                        </div>
+                                       
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -159,11 +174,12 @@
             <div class="row">
         <div class="row mb-3">
     <div class="col-12">
-        <select id="jenis_kel" name="jenis_kelamin" class="form-select">
-            <option value="">Jenis Kelamin</option>
-            <option value="Pria">Pria</option>
-            <option value="Wanita">Wanita</option>
-        </select>
+       <select id="jenis_kel" name="jenis_kel" class="form-select">
+    <option value="">Jenis Kelamin</option>
+    <option value="Pria" {{ old('jenis_kel', $karyawan->jenis_kel ?? '') == 'Pria' ? 'selected' : '' }}>Pria</option>
+    <option value="Wanita" {{ old('jenis_kel', $karyawan->jenis_kel ?? '') == 'Wanita' ? 'selected' : '' }}>Wanita</option>
+</select>
+
     </div>
 </div>
 
@@ -218,20 +234,72 @@
         </div>
       </div>
     </div>
+    {{-- modal edit --}}
+       <div class="modal modal-blur fade" id="modal-Editkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            <h5 class="modal-title">Edit data karyawan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="loadeditform">
+          
+        </div>
+        </div>
+      </div>
+    </div>
+    
 @endsection
 
 @push('myscript')
+
     <script>
 $(function(){
     $("#btnTambahkaryawan").click(function(){
         $("#modal-inputkaryawan").modal('show');
+    });
+    $(".edit").click(function(){
+        var nik = $(this).attr('nik');
+        $.ajax({
+            type:'POST',
+            url:'/karyawan/edit',
+            cache: false,
+            data:{
+                _token:"{{ csrf_token(); }}",
+                nik: nik
+            },
+            success:function(respond){
+                $("#loadeditform").html(respond);
+            }
+        })
+        $("#modal-Editkaryawan").modal('show');
+    });
+    $(".delete-confirm").click(function(e){
+        var form = $(this).closest('form');
+        e.preventDefault();
+        Swal.fire({
+        title: "apa anda yakin untuk menghapus data tersebut ?",
+        text: "data akan dihapus permanen!!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Iya, Hapus Sekarang",
+        }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            form.submit();
+            Swal.fire("Deleted", "Data Berhasil Dihapus", "success");
+        }
+    });
     });
     $("#frmKaryawan").submit(function() {
         var nik = $("#nik").val();
         var nama_lengkap = $("#nama_lengkap").val();
         var jenis_kel = $("#jenis_kel").val();
         var jabatan = $("#jabatan").val();
-        var kode_dep = $("frmKaryawan").find("#kode_dep").val();
+        var kode_dep = $("#frmKaryawan").find("#kode_dep").val();
         var no_hp = $("#no_hp").val();
         if(nik == ""){
             //  alert('Nik harus diisi');
