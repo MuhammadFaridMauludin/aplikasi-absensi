@@ -74,7 +74,7 @@ class PresensiController extends Controller
             'lokasi_in' => $lokasi
         ];
         //validari radius
-        if ($radius > 2000) {
+        if ($radius > 500) {
             echo "erorr|Maaf Anda Berada Diluar Radius Kantor, jarak anda " . $radius . " Meter dari kantor|radius";
         } else {
             if ($cek > 0) {
@@ -254,5 +254,13 @@ class PresensiController extends Controller
             ->get();
 
         return view('presensi.getpresensi', compact('presensi'));
+    }
+    public function tampilkanpeta(Request $request)
+    {
+        $id = $request->id;
+        $presensi = DB::table('presensi')->where('id', $id)
+            ->join('karyawan', 'presensi.nik', '=', 'karyawan.nik')
+            ->first();
+        return view('presensi.showmap', compact('presensi'));
     }
 }
