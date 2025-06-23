@@ -17,17 +17,19 @@ class PresensiController extends Controller
         $harini = date("Y-m-d");
         $nik = Auth::guard('karyawan')->user()->nik;
         $cek = DB::table('presensi')->where('tgl_presensi', $harini)->where('nik', $nik)->count();
-        return view('presensi.create', compact('cek'));
+        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id', 1)->first();
+        return view('presensi.create', compact('cek', 'lok_kantor'));
     }
 
     public function store(Request $request)
     {
-
         $nik = Auth::guard('karyawan')->user()->nik;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
-        $latitudekantor = -8.139962334111932;
-        $longitudekantor = 113.24278259971327;
+        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id', 1)->first();
+        $lok = explode(",", $lok_kantor->lokasi_kantor);
+        $latitudekantor = $lok[0];
+        $longitudekantor = $lok[1];
         $lokasi = $request->lokasi;
         $lokasiuser = explode(",", $lokasi);
         $latitudeuser = $lokasiuser[0];
@@ -74,7 +76,7 @@ class PresensiController extends Controller
             'lokasi_in' => $lokasi
         ];
         //validari radius
-        if ($radius > 500) {
+        if ($radius > $lok_kantor->radius) {
             echo "erorr|Maaf Anda Berada Diluar Radius Kantor, jarak anda " . $radius . " Meter dari kantor|radius";
         } else {
             if ($cek > 0) {
