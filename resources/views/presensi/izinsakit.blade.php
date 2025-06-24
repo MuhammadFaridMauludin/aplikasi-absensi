@@ -14,6 +14,73 @@
         </div>
         <div class="page-body">
             <div class="container-xl">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="/presensi/izinsakit" method="GET" autocomplete="off">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-calendar-event"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 2a1 1 0 0 1 .993 .883l.007 .117v1h1a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h1v-1a1 1 0 0 1 1.993 -.117l.007 .117v1h6v-1a1 1 0 0 1 1 -1m3 7h-14v9.625c0 .705 .386 1.286 .883 1.366l.117 .009h12c.513 0 .936 -.53 .993 -1.215l.007 -.16z" /><path d="M8 14h2v2h-2z" /></svg>
+                                </span>
+                                <input type="text" id="dari" value="{{ Request('dari') }}" class="form-control" name="dari" placeholder="Dari">
+                    </div>
+                                </div>
+                                 <div class="col-6">
+                                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-calendar-event"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 2a1 1 0 0 1 .993 .883l.007 .117v1h1a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h1v-1a1 1 0 0 1 1.993 -.117l.007 .117v1h6v-1a1 1 0 0 1 1 -1m3 7h-14v9.625c0 .705 .386 1.286 .883 1.366l.117 .009h12c.513 0 .936 -.53 .993 -1.215l.007 -.16z" /><path d="M8 14h2v2h-2z" /></svg>
+                                </span>
+                                <input type="text" id="sampai" value="{{ Request('sampai') }}" class="form-control" name="sampai" placeholder="Sampai">
+                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-barcode"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 11h1v2h-1z" /><path d="M10 11l0 2" /><path d="M14 11h1v2h-1z" /><path d="M19 11l0 2" /></svg>
+                                </span>
+                                <input type="text" id="nik" value="{{ Request('nik') }}" class="form-control" name="nik" placeholder="Nik">
+                    </div>
+
+                                </div>
+                                <div class="col-3">
+                                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                                  <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
+                                </span>
+                                <input type="text" id="nama_lengkap" value="{{ Request('nama_lengkap') }}" class="form-control" name="nama_lengkap" placeholder="Nama Lengkap">
+                    </div>
+
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <select name="status_approved" id="status_approved" class="form-select">
+                                            <option value="">Pilih Status</option>
+                                            <option value="0" {{ Request('status_approved') === '0' ? 'selected' : '' }}>Pending</option>
+                                            <option value="1" {{ Request('status_approved') === 1 ? 'selected' : '' }}>Disetujui</option>
+                                            <option value="2" {{ Request('status_approved') === 2 ? 'selected' : ''}}>Ditolak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+Cari Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
                 <div class="col-12">
                     <table class="table table-bordered">
                         <thead>
@@ -64,6 +131,8 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $izinsakit->links('vendor.pagination.bootstrap-5')}}
+                </div>
                 </div>
             </div>
         </div>
@@ -114,6 +183,12 @@
             $("#id_izinsakit_form").val(id_izinsakit);
             $("#modal-izinsakit").modal("show");
         });
+        $("#dari, #sampai").datepicker({ 
+        autoclose: true, 
+        todayHighlight: true,
+        format: 'yyyy-mm-dd'
+  });
+
     })
 </script>
 @endpush
