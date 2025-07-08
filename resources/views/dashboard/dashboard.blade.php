@@ -115,7 +115,7 @@
               </div>
               <div class="item-menu text-center">
                 <div class="menu-icon">
-                  <a href="" class="orange" style="font-size: 40px">
+                  <a href="/presensi/lokasi" class="orange" style="font-size: 40px">
                     <ion-icon
                       name="location"
                       style="color: #718096 !important"

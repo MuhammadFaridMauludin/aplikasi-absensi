@@ -165,9 +165,9 @@
     $("#takeabsen").click(function () {
         Webcam.snap(function (uri) {
             image = uri;
-            // tetap tampilkan kamera aktif
-            $("#video-controls").show(); // tampilkan tombol Take Video
-            $("#takeabsen").hide(); // sembunyikan tombol absen setelah ambil foto
+           
+            $("#video-controls").show();
+            $("#takeabsen").hide();
         });
     });
 
@@ -197,17 +197,17 @@
 async function startCountdownAndRecord() {
     $("#video-preview").hide();
     $("#preview-wrapper").show();
-    $(".webcam-capture").show(); // tetap tampilkan kamera di belakang countdown
+    $(".webcam-capture").show(); 
     startCountdown(async () => {
-        $(".webcam-capture").show(); // setelah hitung mundur, sembunyikan kamera
-        $("#video-preview").hide();  // tampilkan video preview saat selesai rekam
+        $(".webcam-capture").show();
+        $("#video-preview").hide(); 
         await startRecording();
     });
 }
 
 
 async function startRecording() {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false }); // tanpa suara
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
     mediaRecorder = new MediaRecorder(stream);
     recordedChunks = [];
 

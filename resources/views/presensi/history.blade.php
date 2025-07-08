@@ -3,7 +3,7 @@
    <!-- app header-->
     <div class="appHeader text-light" style="background-color: #d32f2f">
         <div class="left">
-            <a href="javascript:;" class="headerButton goBack">
+            <a href="{{ url('/dashboard')}}" class="headerButton">
                 <ion-icon name="chevron-back-outline"></ion-icon>
             </a>
         </div>

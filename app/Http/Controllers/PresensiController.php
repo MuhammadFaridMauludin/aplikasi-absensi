@@ -133,6 +133,12 @@ class PresensiController extends Controller
         $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
         return view('presensi.editprofile', compact('karyawan'));
     }
+
+    public function lokasi()
+    {
+        return view('presensi.lokasi');
+    }
+
     public function updateprofile(Request $request)
     {
         $nik = Auth::guard('karyawan')->user()->nik;

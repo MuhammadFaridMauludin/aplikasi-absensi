@@ -45,7 +45,7 @@
                                 <div class="col-10">
                                      <form action="/departement" method="GET">
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-10">
                                         <div class="form-group">
                                             <input type="text" name="nama_dep" id="nama_dep" class="form-control" placeholder="Departement" value="{{ Request('nama_dep')}}">
                                         </div>
