@@ -14,21 +14,21 @@
   <style>
   @page { 
     size: A4 landscape;
-    margin: 10mm;
+    margin: 5mm;
   }
 
   body {
     font-family: 'Arial', sans-serif;
-    font-size: 9px;
-    line-height: 1.2;
+    font-size: 7px;
+    line-height: 1.1;
     color: #333;
   }
 
   /* Header Styles */
   .header-section {
-    border-bottom: 3px solid #2c5aa0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    border-bottom: 2px solid #2c5aa0;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   .header-table {
@@ -37,92 +37,89 @@
   }
 
   .logo-cell {
-    width: 80px;
+    width: 60px;
     text-align: center;
     vertical-align: middle;
   }
 
   .logo-cell img {
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+    border-radius: 4px;
   }
 
   .company-info {
     vertical-align: middle;
-    padding-left: 20px;
+    padding-left: 15px;
   }
 
   .company-name {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     color: #2c5aa0;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
 
   .report-title {
-    font-size: 14px;
+    font-size: 10px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
 
   .company-address {
     font-style: italic;
     color: #666;
-    font-size: 9px;
-    margin-top: 3px;
+    font-size: 7px;
+    margin-top: 2px;
   }
 
   /* Main Table Styles */
   .tabelpresensi {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    overflow: hidden;
-    background: white;
+    margin-bottom: 10px;
+    font-size: 6px;
   }
 
   .tabelpresensi th {
-    background: linear-gradient(135deg, #2c5aa0 0%, #1e3d72 100%);
+    background: #2c5aa0;
     color: white;
     font-weight: bold;
     text-align: center;
-    padding: 8px 4px;
+    padding: 3px 1px;
     border: 1px solid #1e3d72;
-    font-size: 8px;
+    font-size: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
     vertical-align: middle;
   }
 
   .tabelpresensi th.header-main {
-    font-size: 9px;
-    padding: 10px 6px;
+    font-size: 6px;
+    padding: 4px 2px;
+    writing-mode: horizontal-tb;
   }
 
   .tabelpresensi th.date-header {
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    min-width: 20px;
-    max-width: 20px;
-    font-size: 7px;
-    padding: 6px 2px;
+    min-width: 12px;
+    max-width: 12px;
+    font-size: 5px;
+    padding: 2px 1px;
   }
 
   .tabelpresensi td {
-    border: 1px solid #dee2e6;
-    padding: 4px 2px;
+    border: 1px solid #ccc;
+    padding: 1px;
     text-align: center;
     vertical-align: middle;
     background-color: #fff;
-    font-size: 7px;
-    line-height: 1.1;
+    font-size: 5px;
+    line-height: 1;
   }
 
   .tabelpresensi tr:nth-child(even) td {
@@ -135,41 +132,42 @@
 
   /* Employee Info Columns */
   .employee-nik {
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 50px;
+    max-width: 50px;
     font-weight: bold;
-    background-color: #f1f3f4 !important;
+    background-color: #f5f5f5 !important;
     text-align: left;
-    padding-left: 6px;
+    padding-left: 2px;
+    font-size: 5px;
   }
 
   .employee-name {
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 80px;
+    max-width: 80px;
     font-weight: bold;
-    background-color: #f1f3f4 !important;
+    background-color: #f5f5f5 !important;
     text-align: left;
-    padding-left: 6px;
-    font-size: 8px;
+    padding-left: 2px;
+    font-size: 5px;
   }
 
   /* Date Cells */
   .date-cell {
-    min-width: 18px;
-    max-width: 18px;
-    padding: 2px 1px;
-    font-size: 6px;
+    min-width: 12px;
+    max-width: 12px;
+    padding: 1px;
+    font-size: 4px;
     line-height: 1;
   }
 
   .date-cell .time-in {
     color: #333;
     font-weight: bold;
+    margin-bottom: 1px;
   }
 
   .date-cell .time-out {
     color: #666;
-    margin-top: 1px;
   }
 
   .date-cell .time-late {
@@ -187,9 +185,9 @@
 
   /* Summary Columns */
   .summary-cell {
-    min-width: 30px;
+    min-width: 20px;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 6px;
     background-color: #e8f4f8 !important;
   }
 
@@ -212,43 +210,43 @@
 
   /* Legend */
   .legend-section {
-    margin: 15px 0;
-    padding: 10px;
+    margin: 8px 0;
+    padding: 5px;
     background-color: #f8f9fa;
-    border-radius: 6px;
-    border-left: 4px solid #2c5aa0;
+    border-radius: 3px;
+    border-left: 2px solid #2c5aa0;
   }
 
   .legend-title {
     font-weight: bold;
     color: #2c5aa0;
-    margin-bottom: 5px;
-    font-size: 10px;
+    margin-bottom: 3px;
+    font-size: 7px;
   }
 
   .legend-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    font-size: 8px;
+    gap: 8px;
+    font-size: 6px;
   }
 
   .legend-item {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
   }
 
   .legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
     border: 1px solid #ddd;
   }
 
   /* Signature Section */
   .signature-section {
-    margin-top: 30px;
+    margin-top: 15px;
     page-break-inside: avoid;
   }
 
@@ -258,32 +256,32 @@
 
   .signature-date {
     text-align: right;
-    padding-bottom: 15px;
+    padding-bottom: 8px;
     font-weight: bold;
     color: #555;
-    font-size: 10px;
+    font-size: 7px;
   }
 
   .signature-cell {
     text-align: center;
     vertical-align: bottom;
-    height: 80px;
-    width: 150px;
+    height: 50px;
+    width: 120px;
     border-top: 1px solid #ddd;
-    padding-top: 10px;
+    padding-top: 5px;
   }
 
   .signature-name {
     font-weight: bold;
     text-decoration: underline;
-    margin-bottom: 3px;
-    font-size: 10px;
+    margin-bottom: 2px;
+    font-size: 7px;
   }
 
   .signature-position {
     font-style: italic;
     color: #666;
-    font-size: 9px;
+    font-size: 6px;
   }
 
   /* Print Optimization */
@@ -349,7 +347,7 @@
       <table class="header-table">
         <tr>
           <td class="logo-cell">
-            <img src="{{ asset('assets/img/logoevergreen1.png') }}" width="70" height="70" alt="Logo Perusahaan">
+            <img src="{{ asset('assets/img/logoevergreen1.png') }}" width="50" height="50" alt="Logo Perusahaan">
           </td>
           <td class="company-info">
             <div class="company-name">PT. Indonesia Evergreen Agriculture Lampung</div>
@@ -379,7 +377,7 @@
         </div>
         <div class="legend-item">
           <div class="legend-color" style="background-color: #ffe6e6;"></div>
-          <span>Weekend</span>
+          <span>Weekend (Sabtu)</span>
         </div>
         <div class="legend-item">
           <span><strong>TH:</strong> Total Hadir</span>
@@ -396,22 +394,20 @@
         <tr>
           <th rowspan="2" class="header-main">NIK</th>
           <th rowspan="2" class="header-main">Nama Karyawan</th>
-          <th colspan="31" class="header-main">Tanggal</th>
+          <th colspan="{{ count($validDays) }}" class="header-main">Tanggal</th>
           <th rowspan="2" class="header-main">TH</th>
           <th rowspan="2" class="header-main">TT</th>
         </tr>
         <tr>
-          <?php
-          for($i=1; $i<=31; $i++){
-              // Determine if weekend (assuming Saturday=6, Sunday=0)
-              $date = date('w', mktime(0, 0, 0, $bulan, $i, $tahun));
-              $isWeekend = ($date == 0 || $date == 6);
-              $weekendClass = $isWeekend ? 'weekend-header' : '';
-              ?>
-              <th class="date-header <?php echo $weekendClass; ?>">{{ $i }}</th>
-              <?php
-          }
-          ?>
+          @foreach($validDays as $day)
+            <?php
+            // Determine if weekend (Saturday only, since Sunday is excluded)
+            $date = date('w', mktime(0, 0, 0, $bulan, $day, $tahun));
+            $isWeekend = ($date == 6); // Only Saturday
+            $weekendClass = $isWeekend ? 'weekend-header' : '';
+            ?>
+            <th class="date-header {{ $weekendClass }}">{{ $day }}</th>
+          @endforeach
         </tr>
       </thead>
       <tbody>
@@ -422,52 +418,52 @@
           <?php
           $totalhadir = 0;
           $totalterlambat = 0;
-          for($i=1; $i<=31; $i++){
-              $tgl = "tgl_" .$i;
-              
-              // Determine if weekend
-              $date = date('w', mktime(0, 0, 0, $bulan, $i, $tahun));
-              $isWeekend = ($date == 0 || $date == 6);
-              $weekendClass = $isWeekend ? 'weekend-cell' : '';
-              
-              if (empty($d->$tgl)) {
-                  $hadir = ['',''];
-                  $totalhadir += 0;
-              } else {
-                  $hadir = explode("-",$d->$tgl);
-                  $totalhadir += 1;
-                  if ($hadir[0] > "07:00:00") {
-                      $totalterlambat += 1;
-                  }
-              }
-
-              // Determine CSS classes for time styling
-              $timeInClass = '';
-              $timeOutClass = '';
-              
-              if (!empty($hadir[0])) {
-                  $timeInClass = $hadir[0] > "07:00:00" ? 'time-late' : 'time-normal';
-              }
-              
-              if (!empty($hadir[1])) {
-                  $timeOutClass = $hadir[1] < "16:00:00" ? 'time-early' : 'time-normal';
-              }
-              ?>
-              <td class="date-cell <?php echo $weekendClass; ?>">
-                  <?php if (!empty($hadir[0])): ?>
-                      <div class="time-in <?php echo $timeInClass; ?>">
-                          {{ substr($hadir[0], 0, 5) }}
-                      </div>
-                  <?php endif; ?>
-                  <?php if (!empty($hadir[1])): ?>
-                      <div class="time-out <?php echo $timeOutClass; ?>">
-                          {{ substr($hadir[1], 0, 5) }}
-                      </div>
-                  <?php endif; ?>
-              </td>
-              <?php
-          }
           ?>
+          @foreach($validDays as $day)
+            <?php
+            $tgl = "tgl_" . $day;
+            
+            // Determine if weekend (Saturday only)
+            $date = date('w', mktime(0, 0, 0, $bulan, $day, $tahun));
+            $isWeekend = ($date == 6);
+            $weekendClass = $isWeekend ? 'weekend-cell' : '';
+            
+            if (empty($d->$tgl)) {
+                $hadir = ['',''];
+                $totalhadir += 0;
+            } else {
+                $hadir = explode("-",$d->$tgl);
+                $totalhadir += 1;
+                if ($hadir[0] > "07:00:00") {
+                    $totalterlambat += 1;
+                }
+            }
+
+            // Determine CSS classes for time styling
+            $timeInClass = '';
+            $timeOutClass = '';
+            
+            if (!empty($hadir[0])) {
+                $timeInClass = $hadir[0] > "07:00:00" ? 'time-late' : 'time-normal';
+            }
+            
+            if (!empty($hadir[1])) {
+                $timeOutClass = $hadir[1] < "16:00:00" ? 'time-early' : 'time-normal';
+            }
+            ?>
+            <td class="date-cell {{ $weekendClass }}">
+                @if (!empty($hadir[0]))
+                    <div class="time-in {{ $timeInClass }}">
+                        {{ substr($hadir[0], 0, 5) }}
+                    </div>
+                @endif
+                @if (!empty($hadir[1]))
+                    <div class="time-out {{ $timeOutClass }}">
+                        {{ substr($hadir[1], 0, 5) }}
+                    </div>
+                @endif
+            </td>
+          @endforeach
           <td class="summary-cell summary-hadir">{{ $totalhadir }}</td>
           <td class="summary-cell summary-terlambat">{{ $totalterlambat }}</td>
         </tr>  
@@ -484,11 +480,11 @@
         <tr>
           <td style="width: 50%"></td>
           <td class="signature-cell">
-            <div class="signature-name">( Suprat )</div>
+            <div class="signature-name">( Hadi Santoso )</div>
             <div class="signature-position">Human Resource Development</div>
           </td>
           <td class="signature-cell">
-            <div class="signature-name">( Manager )</div>
+            <div class="signature-name">( Bambang Siswanto )</div>
             <div class="signature-position">Departemen Manager</div>
           </td>
         </tr>

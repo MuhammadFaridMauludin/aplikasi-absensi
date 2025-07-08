@@ -68,9 +68,13 @@ class DashboardController extends Controller
             ->where('tgl_izin', $hariini)
             ->where('status_approved', 1)
             ->first();
+
+        $totalkaryawan = DB::table('karyawan')->count();
+
         return view('dashboard.dashboardadmin', compact(
             'rekappresensi',
-            'rekapizin'
+            'rekapizin',
+            'totalkaryawan'
 
         ));
     }

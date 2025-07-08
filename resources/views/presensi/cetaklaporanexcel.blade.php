@@ -135,50 +135,13 @@
     color: #333;
   }
 
-  /* Attendance Table */
+  /* Attendance Table - No CSS for Excel Export */
   .attendance-section h3 {
     margin: 0 0 15px 0;
     color: #2c5aa0;
     font-size: 14px;
     border-bottom: 2px solid #2c5aa0;
     padding-bottom: 5px;
-  }
-
-  .tabelpresensi {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .tabelpresensi th {
-    background: linear-gradient(135deg, #2c5aa0 0%, #1e3d72 100%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    padding: 12px 8px;
-    border: none;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .tabelpresensi td {
-    border: 1px solid #dee2e6;
-    padding: 10px 8px;
-    text-align: center;
-    vertical-align: middle;
-    background-color: #fff;
-  }
-
-  .tabelpresensi tr:nth-child(even) td {
-    background-color: #f8f9fa;
-  }
-
-  .tabelpresensi tr:hover td {
-    background-color: #e3f2fd;
   }
 
   .foto {
@@ -255,9 +218,16 @@
       print-color-adjust: exact;
     }
 
-    .tabelpresensi th {
-      background: #2c5aa0 !important;
-      color: white !important;
+    .attendance-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    .attendance-table th,
+    .attendance-table td {
+      border: 1px solid #000;
+      padding: 5px;
+      text-align: center;
     }
   }
 
@@ -351,15 +321,15 @@
     <!-- Attendance Table Section -->
     <div class="attendance-section">
       <h3>Rincian Presensi</h3>
-      <table class="tabelpresensi">
+      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
         <thead>
           <tr>
-            <th>No</th>
-            <th>Tanggal</th>
-            <th>Jam Masuk</th>
-            <th>Jam Pulang</th>
-            <th>Keterangan</th>
-            <th>Total Jam</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">No</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">Tanggal</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">Jam Masuk</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">Jam Pulang</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">Keterangan</th>
+            <th style="background-color: #2c5aa0; color: white; font-weight: bold; text-align: center; padding: 12px; border: 1px solid #000;">Total Jam</th>
           </tr>
         </thead>
         <tbody>
@@ -367,26 +337,26 @@
           @php
               $jamterlambat = selisih('07:00:00',$d->jam_in);
           @endphp
-          <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ date("d-m-Y", strtotime($d->tgl_presensi)) }}</td>
-              <td>{{ $d->jam_in }}</td>
-              <td>{{ $d->jam_out != null ? $d->jam_out : 'Belum Absen'}}</td>
-              <td>
+          <tr style="background-color: #f8f9fa;">
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ $loop->iteration }}</td>
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ date("d-m-Y", strtotime($d->tgl_presensi)) }}</td>
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ $d->jam_in }}</td>
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">{{ $d->jam_out != null ? $d->jam_out : 'Belum Absen'}}</td>
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">
                   @if ($d->jam_in > '07:00')
-                      <span class="status-late">Terlambat {{ $jamterlambat }}</span>
+                      <span style="color: #dc3545; font-weight: bold;">Terlambat {{ $jamterlambat }}</span>
                   @else
-                      <span class="status-ontime">Tepat Waktu</span>
+                      <span style="color: #28a745; font-weight: bold;">Tepat Waktu</span>
                   @endif
               </td>
-              <td>
+              <td style="border: 1px solid #000; padding: 10px; text-align: center;">
                   @if ($d->jam_out != null)
                   @php
                       $jmljamkerja = selisih($d->jam_in,$d->jam_out);
                   @endphp
                   {{ $jmljamkerja }}
                   @else
-                  <span class="status-not-out">0</span>
+                  <span style="color: #ffc107; font-weight: bold;">0</span>
                   @endif
               </td>
           </tr>
@@ -404,11 +374,11 @@
         <tr>
           <td style="width: 50%"></td>
           <td class="signature-cell">
-            <div class="signature-name">( Suprat )</div>
-            <div class="signature-position">Human Resource Development</div>
+            <div class="signature-name">( {{ $karyawan->nama_lengkap }} )</div>
+            <div class="signature-position">{{ $karyawan->jabatan }}</div>
           </td>
           <td class="signature-cell">
-            <div class="signature-name">( Suprat )</div>
+            <div class="signature-name">( Hadi Santoso )</div>
             <div class="signature-position">Human Resource Development</div>
           </td>
         </tr>

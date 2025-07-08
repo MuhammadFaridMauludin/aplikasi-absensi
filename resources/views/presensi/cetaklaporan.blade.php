@@ -416,11 +416,11 @@
         <tr>
           <td style="width: 50%"></td>
           <td class="signature-cell">
-            <div class="signature-name">( Suprat )</div>
-            <div class="signature-position">Human Resource Development</div>
+            <div class="signature-name">{{ $karyawan->nama_lengkap }}</div>
+            <div class="signature-position">{{ $karyawan->jabatan }}</div>
           </td>
           <td class="signature-cell">
-            <div class="signature-name">( Suprat )</div>
+            <div class="signature-name"> Hadi Santoso </div>
             <div class="signature-position">Human Resource Development</div>
           </td>
         </tr>
