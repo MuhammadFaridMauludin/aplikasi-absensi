@@ -18,7 +18,7 @@
         id="user-section"
         style="background: linear-gradient(135deg, #4c6ef5, #5f27cd)"
       >
-      <a href="/proseslogout" class="logout">
+      <a href="#" class="logout" id="btn-logout-karyawan">
         <ion-icon name="exit"></ion-icon>
       </a>
         <div id="user-detail">
@@ -310,4 +310,26 @@
           </div>
         </div>
       </div>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('btn-logout-karyawan').addEventListener('click', function (e) {
+  e.preventDefault(); // Hindari redirect langsung
+
+  Swal.fire({
+    title: "Logout dari aplikasi?",
+    text: "Anda yakin ingin keluar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya, logout",
+    cancelButtonText: "Batal"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirect manual ke route logout
+      window.location.href = "/proseslogout";
+    }
+  });
+});
+</script>
 @endsection

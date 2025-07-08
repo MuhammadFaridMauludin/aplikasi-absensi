@@ -111,7 +111,7 @@
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <div class="dropdown-divider"></div>
                 {{-- <a href="./settings.html" class="dropdown-item">Settings</a> --}}
-                <a href="/proseslogoutadmin" class="dropdown-item">Logout</a>
+                <a href="#" class="dropdown-item" id="btn-logout-admin">Logout</a>
               </div>
             </div>
           </div>
@@ -130,3 +130,25 @@
           </div>
         </div>
       </header>
+      
+<script>
+document.getElementById('btn-logout-admin').addEventListener('click', function (e) {
+  e.preventDefault(); // Hindari redirect langsung
+
+  Swal.fire({
+    title: "Logout dari sistem?",
+    text: "Anda yakin ingin keluar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya, logout",
+    cancelButtonText: "Batal"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirect manual ke route logout
+      window.location.href = "/proseslogoutadmin";
+    }
+  });
+});
+</script>
