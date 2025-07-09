@@ -3,9 +3,10 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <h1 class="navbar-brand navbar-brand-autodark">
+          <h1 class="navbar-brand navbar-brand-autodark" style="margin-top: 10px">
             <a>
-              <img src="{{ asset('tabler/static/logo1.svg')}}" width="160" height="82" alt="Tabler" class="navbar-brand-image">
+              {{-- <img src="{{ asset('tabler/static/yoi.png')}}" width="110" height="32" alt="Tabler" class="navbar-brand-image"> --}}
+              Administrator
             </a>
           </h1>
           <div class="navbar-nav flex-row d-lg-none">

@@ -117,7 +117,7 @@ Cari Data
                                     </td>
                                     <td>
                                         @if($d->status_approved==0)
-                                        <a href="#" class="btn btn-sm btn-primary text-white" id="approve" id_izinsakit="{{ $d->id }}">
+                                        <a href="#" class="btn btn-sm btn-primary text-white btn-approve" id_izinsakit="{{ $d->id }}">
                                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
                                         </a>
                                         @else
@@ -151,14 +151,24 @@ Cari Data
                 <div class="row">
                 <div class="class col-12">
                     <dov class="form-group">
-                        <select name="status_approved" id="status_approved" class="form-select">
+                        <select name="status_approved" id="status_approved_modal" class="form-select">
                             <option value="1">Disetujui</option>
                             <option value="2">Ditolak</option>
                         </select>
                     </dov>
                     </div>
+                    
                 </div>
-                <div class="row mt-1">
+                <div class="row mt-1" id="input-alasan" style="display: none;">
+  <div class="col-12">
+    <div class="form-group">
+      <label for="alasan_admin"></label>
+      <textarea name="alasan_admin" id="alasan_admin" class="form-control" rows="3" placeholder="Tulis alasan penolakan..."></textarea>
+    </div>
+  </div>
+</div>
+
+                <div class="row mt-3">
                     <div class="col-12">
                         <div class="form-group">
                             <button class="btn btn-primary w-100" type="submit">
@@ -176,19 +186,44 @@ Cari Data
 @endsection
 @push('myscript')
 <script>
-    $(function(){
-        $("#approve").click(function(e){
-            e.preventDefault();
-            var id_izinsakit = $(this).attr("id_izinsakit");
-            $("#id_izinsakit_form").val(id_izinsakit);
-            $("#modal-izinsakit").modal("show");
-        });
-        $("#dari, #sampai").datepicker({ 
-        autoclose: true, 
+   $(function () {
+    // Saat tombol approve diklik - perbaiki selector
+    $(".btn-approve").click(function (e) {
+        e.preventDefault();
+        var id_izinsakit = $(this).attr("id_izinsakit");
+        $("#id_izinsakit_form").val(id_izinsakit);
+        
+        // Reset modal ke kondisi awal setiap kali dibuka
+        $("#status_approved_modal").val("1"); // set default ke "Disetujui"
+        $("#input-alasan").hide(); // sembunyikan textarea
+        $("#alasan_admin").val(""); // kosongkan textarea
+        
+        $("#modal-izinsakit").modal("show");
+    });
+
+    // Inisialisasi datepicker
+    $("#dari, #sampai").datepicker({
+        autoclose: true,
         todayHighlight: true,
         format: 'yyyy-mm-dd'
-  });
+    });
 
-    })
+    // Tampilkan textarea alasan hanya jika status ditolak (value = 2)
+    $("#status_approved_modal").change(function () {
+        if ($(this).val() == "2") {
+            $("#input-alasan").show();
+        } else {
+            $("#input-alasan").hide();
+            $("#alasan_admin").val(""); // reset textarea jika tidak ditolak
+        }
+    });
+
+    // Event listener untuk reset modal saat ditutup
+    $('#modal-izinsakit').on('hidden.bs.modal', function () {
+        $("#status_approved_modal").val("1"); // reset ke "Disetujui"
+        $("#input-alasan").hide(); // sembunyikan textarea
+        $("#alasan_admin").val(""); // kosongkan textarea
+    });
+});
 </script>
 @endpush

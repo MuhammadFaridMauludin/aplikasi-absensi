@@ -40,7 +40,7 @@
                       <div>
                         <b>{{date("d-m-Y", strtotime($d->tgl_izin)) }} ({{$d->status== "s" ? "Sakit" : "Izin"}})</b>
                         <br>
-                        <small class="text-muted">{{ $d->keterangan }}</small>
+                        <small class="text-muted">{{ $d->alasan }}</small>
                       </div>
                       @if ($d->status_approved==0)
                       <span class="badge bg-warning">menunggu</span>

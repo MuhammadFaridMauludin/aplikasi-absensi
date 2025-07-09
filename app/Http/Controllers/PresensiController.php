@@ -386,15 +386,28 @@ class PresensiController extends Controller
     {
         $status_approved = $request->status_approved;
         $id_izinsakit_form = $request->id_izinsakit_form;
+
+        // Cek apakah status ditolak, kalau iya ambil alasan dari input
+        if ($status_approved == 2) {
+            $alasan = $request->alasan_admin;
+        } else {
+            $alasan = '-'; // atau bisa "" atau "Disetujui", terserah kamu
+        }
+
         $update = DB::table('pengajuan_izin')
             ->where('id', $id_izinsakit_form)
-            ->update(['status_approved' => $status_approved]);
+            ->update([
+                'status_approved' => $status_approved,
+                'alasan' => $alasan
+            ]);
+
         if ($update) {
             return Redirect::back()->with(['success' => 'Data Berhasil Di Update']);
         } else {
-            return Redirect::back()->with(['warning' => 'Data Gagal DI Update']);
+            return Redirect::back()->with(['warning' => 'Data Gagal Di Update']);
         }
     }
+
     public function batalkanizinsakit($id)
     {
         $update = DB::table('pengajuan_izin')
